@@ -14,41 +14,36 @@
 # limitations under the License.
 #
 
+TARGET_BUILD_DOLBY_CODECS ?= true
+TARGET_BUILD_DOLBY_EFFECTS ?= true
+
 # Dolby path
 DOLBY_PATH := hardware/dolby
 
 # Soong Namespace
-PRODUCT_SOONG_NAMESPACES += \
-   $(DOLBY_PATH)
+PRODUCT_SOONG_NAMESPACES += $(DOLBY_PATH)
 
 # SEPolicy
 BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
 
+ifeq ($(or $(strip $(TARGET_BUILD_DOLBY_CODECS)),$(strip $(TARGET_BUILD_DOLBY_EFFECTS))),true)
+
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DOLBY_PATH)/configs/vintf/dolby_framework_matrix.xml
+
 ifneq ($(strip $(DEVICE_MANIFEST_FILE)),)
-DEVICE_MANIFEST_FILE += \
-    $(DOLBY_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml \
-    $(DOLBY_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml
+DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml
 else
-ODM_MANIFEST_FILES += \
-    $(DOLBY_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml \
-    $(DOLBY_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml
+ODM_MANIFEST_FILES += $(DOLBY_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml
 endif
 
-# Build codec2 packages
-PRODUCT_PACKAGES += \
-    libavservices_minijail.vendor \
-    libcodec2_hidl@1.2.vendor \
-    libstagefright_foundation-v33 \
-    libcodec2_soft_common.vendor
+endif 
 
-# Configs
-PRODUCT_COPY_FILES += \
-    $(DOLBY_PATH)/configs/dax/dax-default.xml:$(TARGET_COPY_OUT_VENDOR)/etc/dolby/dax-default.xml \
-    $(DOLBY_PATH)/configs/media/media_codecs_dolby_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_dolby_audio.xml
+ifeq ($(strip $(TARGET_BUILD_DOLBY_EFFECTS)),true)
 
-# Dolby
+# LunarisDolby
+PRODUCT_PACKAGES += LunarisDolby
+
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.dolby.dax.version=DAX3_3.7.0.8_r1 \
     ro.audio.spatializer_enabled=true \
@@ -58,36 +53,16 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.audio.dolby.ds2.enabled=false \
     vendor.audio.dolby.ds2.hardbypass=false
 
-# LunarisDolby
-PRODUCT_PACKAGES += \
-    LunarisDolby
+endif
 
-# Init
-PRODUCT_PACKAGES += \
-    init.dolby.rc
+ifeq ($(strip $(TARGET_BUILD_DOLBY_CODECS)),true)
+PRODUCT_PACKAGES +=  DolbyCodecs
 
-# Proprietary-files
-PRODUCT_COPY_FILES += \
-    $(DOLBY_PATH)/proprietary/vendor/etc/init/vendor.dolby.hardware.dms@2.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.dolby.hardware.dms@2.0-service.rc \
-    $(DOLBY_PATH)/proprietary/vendor/etc/init/vendor.dolby.media.c2@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/vendor.dolby.media.c2@1.0-service.rc
+ifneq ($(strip $(DEVICE_MANIFEST_FILE)),)
+DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml
+else
+ODM_MANIFEST_FILES += $(DOLBY_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml
+endif
 
-PRODUCT_PACKAGES += \
-    vendor.dolby.hardware.dms@2.0-impl \
-    vendor.dolby.hardware.dms@2.0 \
-    vendor.dolby.hardware.dms@2.0-service \
-    vendor.dolby.media.c2@1.0-service \
-    libcodec2_soft_ac4dec \
-    libcodec2_soft_ddpdec \
-    libcodec2_soft_dolby \
-    libcodec2_store_dolby \
-    libdapparamstorage \
-    libdeccfg \
-    libdlbdsservice \
-    libdlbpreg \
-    libspatializerparamstorage \
-    libdlbvol \
-    libswdap \
-    libswgamedap \
-    libswspatializer \
-    libswvqe 
+endif
 

@@ -35,8 +35,10 @@ android_app {
     ],
 
     required: [
+        
         "preinstalled-packages-platform-dolby.xml",
         "privapp-permissions-dolby.xml",
+        "DolbyEffects",
     ],
 
     optimize: {

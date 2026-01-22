@@ -294,6 +294,7 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_binary {
 	name: "vendor.dolby.hardware.dms@2.0-service",
+	init_rc: ["proprietary/vendor/etc/init/vendor.dolby.hardware.dms@2.0-service.rc"],
 	owner: "xiaomi",
 	target: {
 		android_arm64: {
@@ -312,6 +313,7 @@ cc_prebuilt_binary {
 
 cc_prebuilt_binary {
 	name: "vendor.dolby.media.c2@1.0-service",
+	init_rc: ["proprietary/vendor/etc/init/vendor.dolby.media.c2@1.0-service.rc"],
 	owner: "sony",
 	target: {
 		android_arm64: {
@@ -327,3 +329,29 @@ cc_prebuilt_binary {
 	relative_install_path: "hw",
 	soc_specific: true,
 }
+
+phony {
+	name: "DolbyEffects",
+	required: [
+		"vendor.dolby.hardware.dms@2.0-service",
+		"init.dolby.rc",
+		"dax-default.xml",
+		"libswvqe",
+		"libswgamedap",
+		"libswdap",
+		"libswspatializer",
+		"libdlbvol",
+	],
+}
+
+phony {
+	name: "DolbyCodecs",
+	required: [
+		"vendor.dolby.hardware.dms@2.0-service",
+		"media_codecs_dolby_audio.xml",
+		"vendor.dolby.media.c2@1.0-service",
+		"libcodec2_soft_ddpdec",
+		"libcodec2_soft_ac4dec",
+	],
+}
+
