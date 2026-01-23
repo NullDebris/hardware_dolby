@@ -1,43 +1,54 @@
 Xiaomi Dolby
 ==============
 
+
 Getting Started
 ---------------
-For dolby media codecs to work add this line in your media codecs config (should be in vendor partition) and make sure your device supports c2 codecs. :-
+For Dolby media codecs to work, add this line in your media codecs config (should be in vendor partition) and make sure your device supports c2 codecs. 
 
 ```bash
 <Include href="media_codecs_dolby_audio.xml" />
 ```
 
-To build, add the dolby effects in your device's audio effects config then inherit the dolby config by adding this in your device's makefile :-
+To build, add the Dolby effects in your device's audio effects config then inherit the Dolby config by adding this in your device's makefile :
 
 ```bash
 $(call inherit-product, hardware/dolby/dolby.mk)
 ```
+> You may want to use `inherit-product-if-exists`, otherwise building will terminate if `hardware/dolby/dolby.mk` does not exist.
 
-Now, moving hidl definitions in manifest to device trees is completely absurd so stop overriding manifest in your device trees an example for such would be :-
 
-Changing these in BoardConfig makefile of your device tree:-
+Now, moving HIDL definitions in manifest to device trees is completely absurd, so stop overriding manifests in your device trees.
+An example for such would be changing these in BoardConfig.mk of your device tree:
 
-```bash
+```makefile
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE :=
 ```
-And
 
-```bash
+```makefile
 DEVICE_MANIFEST_FILE :=
 ```
 
-To:-
+To:
 
-```bash
+```makefile
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE +=
 ```
-And
 
 ```bash
 DEVICE_MANIFEST_FILE +=
 ```
 
+If `DEVICE_MANIFEST_FILE` is unset in your device trees and you have `ODM_MANIFEST_FILES`, change that line instead.
+
 The only change done above is changing := symbol to += so that manifest can't be overriden from device tree in BoardConfig makefile.
 
+Build Flags
+------------
+
+```
+TARGET_BUILD_DOLBY_EFFECTS :=
+TARGET_BUILD_DOLBY_CODECS :=
+```
+
+Both of these are set to true by default by dolby.mk if not overridden. If you only want to build the effects, set `TARGET_BUILD_DOLBY_CODECS := false` in your device tree and vice versa.
