@@ -1,4 +1,4 @@
-Xiaomi Dolby
+Lunaris (Xiaomi) Dolby
 ==============
 
 
@@ -12,7 +12,7 @@ For Dolby media codecs to work, add this line in your media codecs config (shoul
 
 To build, add the Dolby effects in your device's audio effects config then inherit the Dolby config by adding this in your device's makefile :
 
-```bash
+```makefile
 $(call inherit-product, hardware/dolby/dolby.mk)
 ```
 > You may want to use `inherit-product-if-exists`, otherwise building will terminate if `hardware/dolby/dolby.mk` does not exist.
@@ -35,13 +35,13 @@ To:
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE +=
 ```
 
-```bash
+```makefile
 DEVICE_MANIFEST_FILE +=
 ```
 
 If `DEVICE_MANIFEST_FILE` is unset in your device trees and you have `ODM_MANIFEST_FILES`, change that line instead.
 
-The only change done above is changing := symbol to += so that manifest can't be overriden from device tree in BoardConfig makefile.
+The only change done above is changing the `:=` symbol to `+=` so that manifests can't be overriden by device trees in BoardConfig makefiles.
 
 Build Flags
 ------------
