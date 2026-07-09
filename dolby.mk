@@ -30,9 +30,6 @@ ifeq ($(or $(strip $(TARGET_BUILD_DOLBY_CODECS)),$(strip $(TARGET_BUILD_DOLBY_EF
 
 # HIDL
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DOLBY_PATH)/configs/vintf/dolby_framework_matrix.xml
-DEVICE_MANIFEST_FILE += \
-    $(DOLBY_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml \
-    $(DOLBY_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml
 
 endif 
 
@@ -54,8 +51,5 @@ endif
 
 ifeq ($(strip $(TARGET_BUILD_DOLBY_CODECS)),true)
 PRODUCT_PACKAGES +=  DolbyCodecs
-
-DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml
-
 endif
 

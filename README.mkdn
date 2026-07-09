@@ -24,24 +24,11 @@ An example for such would be changing these in BoardConfig.mk of your device tre
 ```makefile
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE :=
 ```
-
-```makefile
-DEVICE_MANIFEST_FILE :=
-```
-
 To:
 
 ```makefile
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE +=
 ```
-
-```makefile
-DEVICE_MANIFEST_FILE +=
-```
-
-If `DEVICE_MANIFEST_FILE` is unset in your device trees and you have `ODM_MANIFEST_FILES`, change that line instead.
-
-The only change done above is changing the `:=` symbol to `+=` so that manifests can't be overriden by device trees in BoardConfig makefiles.
 
 Build Flags
 ------------
