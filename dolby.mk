@@ -47,9 +47,18 @@ PRODUCT_VENDOR_PROPERTIES += \
     vendor.audio.dolby.ds2.enabled=false \
     vendor.audio.dolby.ds2.hardbypass=false
 
+ifneq ($(strip $(DEVICE_MANIFEST_FILE)),)
+DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml
+endif
+
 endif
 
 ifeq ($(strip $(TARGET_BUILD_DOLBY_CODECS)),true)
 PRODUCT_PACKAGES +=  DolbyCodecs
+
+ifneq ($(strip $(DEVICE_MANIFEST_FILE)),)
+DEVICE_MANIFEST_FILE += $(DOLBY_PATH)/configs/vintf/vendor.dolby.media.c2@1.0-service.xml
+endif
+
 endif
 
