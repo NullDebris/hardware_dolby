@@ -10,15 +10,3 @@ prebuilt_etc {
 	src: "media/media_codecs_dolby_audio.xml",
     soc_specific: true,
 }
-
-vintf_fragment {
-    name: "vendor.dolby.hardware.dms@2.0-service.xml",
-    src: "vintf/vendor.dolby.hardware.dms@2.0-service.xml",
-    vendor: true,
-}
-
-vintf_fragment {
-    name: "vendor.dolby.media.c2@1.0-service.xml",
-    src: "vintf/vendor.dolby.media.c2@1.0-service.xml",
-    vendor: true,
-}

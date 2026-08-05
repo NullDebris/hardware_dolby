@@ -332,7 +332,6 @@ cc_prebuilt_binary {
 
 phony {
 	name: "DolbyEffects",
-	vintf_fragment_modules: ["vendor.dolby.hardware.dms@2.0-service.xml"],
 	vendor: true,
 	required: [
 		"vendor.dolby.hardware.dms@2.0-service",
@@ -348,7 +347,6 @@ phony {
 
 phony {
 	name: "DolbyCodecs",
-	vintf_fragment_modules: ["vendor.dolby.media.c2@1.0-service.xml"],
 	vendor: true,
 	required: [
 		"vendor.dolby.hardware.dms@2.0-service",
