@@ -4,13 +4,16 @@ Lunaris (Xiaomi) Dolby
 
 Getting Started
 ---------------
+
+### Codecs (AC3, Spatial)
 For Dolby media codecs to work, add this line in your media codecs config (should be in vendor partition) and make sure your device supports c2 codecs. 
 
 ```bash
 <Include href="media_codecs_dolby_audio.xml" />
 ```
+### Effects 
 
-To build, add the Dolby effects in your device's audio effects config then inherit the Dolby config by adding this in your device's makefile :
+To build, add the Dolby effects in your device's audio effects config, then inherit the Dolby config by adding this in your device's makefile:
 
 ```makefile
 $(call inherit-product, hardware/dolby/dolby.mk)
@@ -29,6 +32,12 @@ To:
 ```makefile
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE +=
 ```
+
+Be sure to include the VINTF makefile **after** your BoardConfig.mk VINTF declarations.
+```makefile
+include hardware/dolby/configs/vintf/config.mk
+```
+> Use `-include` instead to prevent failure if hardware/dolby isn't present.
 
 Build Flags
 ------------
