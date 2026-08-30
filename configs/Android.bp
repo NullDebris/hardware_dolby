@@ -1,12 +1,12 @@
 prebuilt_etc {
-	name: "dax-default.xml",
-	src: "dax/dax-default.xml",
+    name: "dax-default.xml",
+    src: "dax/dax-default.xml",
     sub_dir: "dolby",
     soc_specific: true,
 }
 
 prebuilt_etc {
-	name: "media_codecs_dolby_audio.xml",
-	src: "media/media_codecs_dolby_audio.xml",
+    name: "media_codecs_dolby_audio.xml",
+    src: "media/media_codecs_dolby_audio.xml",
     soc_specific: true,
 }
