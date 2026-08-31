@@ -365,15 +365,17 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_library_shared {
     name: "libswdapaidl",
+    stem: "libswdapaidl",
     owner: "aidl",
     strip: {
         none: true,
     },
     target: {
         android_arm64: {
-            srcs: [
-                "proprietary/vendor/lib64/soundfx/libswdapaidl.so",
-            ],
+            srcs: select(soong_config_variable("dolby", "use_prebuilt_libaudio_aidl_conversion"), {
+                true: ["proprietary/vendor/lib64/soundfx/libswdapaidl_laac_prebuilt.so"],
+                default: ["proprietary/vendor/lib64/soundfx/libswdapaidl.so"],
+            }),
         },
     },
     compile_multilib: "64",
@@ -385,15 +387,17 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_library_shared {
     name: "libswgamedapaidl",
+    stem: "libswgamedapaidl",
     owner: "aidl",
     strip: {
         none: true,
     },
     target: {
         android_arm64: {
-            srcs: [
-                "proprietary/vendor/lib64/soundfx/libswgamedapaidl.so",
-            ],
+            srcs: select(soong_config_variable("dolby", "use_prebuilt_libaudio_aidl_conversion"), {
+                true: ["proprietary/vendor/lib64/soundfx/libswgamedapaidl_laac_prebuilt.so"],
+                default: ["proprietary/vendor/lib64/soundfx/libswgamedapaidl.so"],
+            }),
         },
     },
     compile_multilib: "64",
@@ -405,15 +409,17 @@ cc_prebuilt_library_shared {
 
 cc_prebuilt_library_shared {
     name: "libswspatializeraidl",
+    stem: "libswspatializeraidl",
     owner: "aidl",
     strip: {
         none: true,
     },
     target: {
         android_arm64: {
-            srcs: [
-                "proprietary/vendor/lib64/soundfx/libswspatializeraidl.so",
-            ],
+            srcs: select(soong_config_variable("dolby", "use_prebuilt_libaudio_aidl_conversion"), {
+                true: ["proprietary/vendor/lib64/soundfx/libswspatializeraidl_laac_prebuilt.so"],
+                default: ["proprietary/vendor/lib64/soundfx/libswspatializeraidl.so"],
+            }),
         },
     },
     compile_multilib: "64",
