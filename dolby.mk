@@ -16,6 +16,7 @@
 
 TARGET_BUILD_DOLBY_CODECS ?= true
 TARGET_BUILD_DOLBY_EFFECTS ?= true
+DOLBY_TARGET_USES_AIDL ?= false
 
 # Dolby path
 DOLBY_PATH := hardware/dolby
@@ -23,15 +24,32 @@ DOLBY_PATH := hardware/dolby
 # Soong Namespace
 PRODUCT_SOONG_NAMESPACES += $(DOLBY_PATH)
 
-ifeq ($(or $(strip $(TARGET_BUILD_DOLBY_CODECS)),$(strip $(TARGET_BUILD_DOLBY_EFFECTS))),true)
-
-# SEPolicy
+# AIDL
+ifeq ($(strip $(DOLBY_TARGET_USES_AIDL)),true)
+BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/aidl/vendor
+PRODUCT_SOONG_NAMESPACES += $(DOLBY_PATH)/aidl
+else
 BOARD_VENDOR_SEPOLICY_DIRS += $(DOLBY_PATH)/sepolicy/vendor
+PRODUCT_SOONG_NAMESPACES += $(DOLBY_PATH)/hidl
+endif
 
 ifeq ($(strip $(TARGET_BUILD_DOLBY_EFFECTS)),true)
 
-# LunarisDolby
+# Lunaris Dolby
+PRODUCT_SOONG_NAMESPACES += $(DOLBY_PATH)/LunarisDolby
 PRODUCT_PACKAGES += LunarisDolby
+
+ifeq ($(strip $(DOLBY_TARGET_USES_AIDL)),true)
+
+PRODUCT_VENDOR_PROPERTIES += \
+    persist.vendor.audio.effectimplenter=dolby \
+    persist.vendor.audio_fx.current=dolby \
+    vendor.audio.dolby.ds2.enabled=false \
+    vendor.audio.dolby.ds2.hardbypass=false \
+    ro.vendor.dolby.dax.version=DAX3_3.12.0.8_r1 \
+    persist.vendor.audio.dolby.tws_tuning=true
+
+else 
 
 PRODUCT_VENDOR_PROPERTIES += \
     ro.vendor.dolby.dax.version=DAX3_3.7.0.8_r1 \
@@ -44,8 +62,9 @@ PRODUCT_VENDOR_PROPERTIES += \
 
 endif
 
+endif
+
 ifeq ($(strip $(TARGET_BUILD_DOLBY_CODECS)),true)
 PRODUCT_PACKAGES +=  DolbyCodecs
 endif
 
-endif
