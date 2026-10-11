@@ -27,9 +27,6 @@ else
 
 ifeq ($(or $(strip $(TARGET_BUILD_DOLBY_CODECS)),$(strip $(TARGET_BUILD_DOLBY_EFFECTS))),true)
   DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += $(DOLBY_PATH)/configs/vintf/dolby_framework_matrix.xml
-endif
-
-ifeq ($(strip $(TARGET_BUILD_DOLBY_EFFECTS)),true)
   $(eval $(call add-dolby-manifest-file,$(DOLBY_PATH)/configs/vintf/vendor.dolby.hardware.dms@2.0-service.xml))
 endif
 
